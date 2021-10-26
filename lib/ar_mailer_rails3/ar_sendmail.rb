@@ -355,7 +355,7 @@ class ArMailerRails3::ARSendmail
     return if @max_age == 0
     timeout = Time.now - @max_age
     conditions = ['last_send_attempt > 0 and created_on < ?', timeout]
-    mail = self.class.email_class.destroy_all conditions
+    mail = self.class.email_class.where(conditions).destroy_all
 
     log "expired #{mail.length} emails from the queue"
   end
