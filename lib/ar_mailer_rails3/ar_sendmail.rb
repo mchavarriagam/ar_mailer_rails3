@@ -384,7 +384,7 @@ class ArMailerRails3::ARSendmail
     smtp.start(*settings) do |session|
       @failed_auth_count = 0
       until emails.empty? do
-        email = emails.to_a.shift
+        email = emails.shift
         begin
           log "about to send email %011d from %s to %s" % [email.id, email.from, email.to]
           res = session.send_message email.mail, email.from, email.to
@@ -473,7 +473,7 @@ class ArMailerRails3::ARSendmail
       begin
         cleanup
         emails = find_emails
-        deliver(emails) unless emails.empty?
+        deliver(emails.to_a) unless emails.empty?
       rescue StandardError => e
         log "Could not deliver: #{e.message} - #{e.backtrace}"
       end
